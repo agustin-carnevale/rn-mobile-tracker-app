@@ -8,6 +8,8 @@ const authReducer = (state, action) =>{
     switch (action.type) {
         case 'signin':
             return {errorMessage:'', token: action.payload}
+        case 'signout':
+            return {errorMessage:'', token: null}
         case 'add_error':
             return {...state, errorMessage: action.payload}
         case 'clear_error_message':
@@ -53,8 +55,10 @@ const signin = dispatch => async ({email, password})=>{
     }
 }
 
-const signout = dispatch => ()=>{
-
+const signout = dispatch => async ()=>{
+    await AsyncStorage.removeItem('token')
+    dispatch({type: 'signout'})
+    navigate('loginFlow')
 }
 
 
